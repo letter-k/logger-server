@@ -1,0 +1,37 @@
+repos:
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.2.0
+  hooks:
+    - id: trailing-whitespace
+      exclude: alembic
+    - id: end-of-file-fixer
+      exclude: alembic
+    - id: check-yaml
+      exclude: alembic
+    - id: check-added-large-files
+      exclude: alembic
+    - id: check-merge-conflict
+      exclude: alembic
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.12.0
+  hooks:
+    - id: isort
+      exclude: alembic
+      args: [--profile, black]
+
+- repo: https://github.com/ambv/black
+  rev: 24.4.0
+  hooks:
+    - id: black
+      exclude: app/alembic
+
+- repo: local
+  hooks:
+    - id: export-prod-requirements
+      name: Export PROD requirements.txt
+      language: system
+      pass_filenames: false
+      entry: poetry export --without-hashes --output requirements/prod.txt
+      files: ^(pyproject.toml|poetry.lock)$

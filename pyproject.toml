@@ -1,0 +1,74 @@
+[tool.poetry]
+name = "logger-server"
+version = "0.1.0"
+description = ""
+authors = ["kotorkovsciy <kotorkovsciy@gmail.com>"]
+readme = "README.md"
+packages = [{ include = "app" }]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = "^0.112.0"
+uvicorn = {extras = ["standard"], version = "^0.30.6"}
+sqlmodel = "^0.0.21"
+aiomysql = "^0.2.0"
+alembic = "^1.13.2"
+pydantic-settings = "^2.4.0"
+pydantic = {extras = ["email"], version = "^2.8.2"}
+passlib = {extras = ["argon2"], version = "^1.7.4"}
+types-passlib = "^1.7.7.20240327"
+pyjwt = "^2.9.0"
+python-multipart = "^0.0.9"
+
+
+[tool.poetry.group.dev.dependencies]
+mypy = "^1.11.1"
+ruff = "^0.5.7"
+pre-commit = "^3.8.0"
+click = "^8.1.7"
+black = "^24.8.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.mypy]
+strict = true
+exclude = ["venv", ".venv", "alembic"]
+
+[tool.ruff]
+target-version = "py310"
+exclude = ["venv", ".venv", "alembic"]
+
+[tool.ruff.lint]
+select = [
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "ARG001", # unused arguments in functions
+]
+ignore = [
+    "E501",  # line too long, handled by black
+    "B008",  # do not perform function calls in argument defaults
+    "W191",  # indentation contains tabs
+    "B904",  # Allow raising exceptions without from e, for HTTPException
+]
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+[tool.black]
+exclude = '''
+(
+  /(
+    | .venv
+    | app/alembic
+  )/
+)
+'''
